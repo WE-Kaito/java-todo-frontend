@@ -1,22 +1,21 @@
 package com.example.backend.toDo;
 
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class TodoRepo {
 
-    private List<TodoItem> todoRepository;
+    private final List<TodoItem> todoRepository;
 
-    public List<TodoItem> getTodoRepository() {
-        return todoRepository;
+    public List<TodoItem> getAllTodos() {
+        return this.todoRepository;
     }
 
-    void setStatus(String id, Status status) {
+    void setStatus(String id, String status) {
         todoRepository.stream().forEach(todoItem -> {
             if (todoItem.getId().equals(id)) {
                 todoItem.setStatus(status);
@@ -26,6 +25,20 @@ public class TodoRepo {
 
     void addTodoItem(TodoItem todoItem) {
         todoRepository.add(todoItem);
+    }
+
+    public List<TodoItem> getTodoRepository() {
+        return todoRepository;
+    }
+
+    TodoItem getTodoItem(String id) {
+        TodoItem todoItem = null;
+        for (TodoItem todo : todoRepository) {
+            if (todo.getId().equals(id)) {
+                todoItem = todo;
+            }
+        }
+        return todoItem;
     }
 
     void deleteTodoItem(String id) {
@@ -39,35 +52,4 @@ public class TodoRepo {
             }
         });
     }
-
-    List<TodoItem> getTodoTodos() {
-        List<TodoItem> todoTodos = new ArrayList<>();
-        todoRepository.stream().forEach(todo -> {
-            if (todo.getStatus().equals(Status.TODO.toString())) {
-                todoTodos.add(todo);
-            }
-        });
-        return todoTodos;
-    }
-
-    List<TodoItem> getTodoDoings() {
-        List<TodoItem> todoDoings = new ArrayList<>();
-        todoRepository.stream().forEach(todo -> {
-            if (todo.getStatus().equals(Status.DOING.toString())) {
-                todoDoings.add(todo);
-            }
-        });
-        return todoDoings;
-    }
-
-    List<TodoItem> getTodoDones() {
-        List<TodoItem> todoDones = new ArrayList<>();
-        todoRepository.stream().forEach(todo -> {
-            if (todo.getStatus().equals(Status.DONE.toString())) {
-                todoDones.add(todo);
-            }
-        });
-        return todoDones;
-    }
-
 }

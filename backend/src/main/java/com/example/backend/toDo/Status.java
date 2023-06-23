@@ -1,7 +1,7 @@
 package com.example.backend.toDo;
 
 enum Status {
-    TODO("Todo"),
+    OPEN("Todo"),
     DOING("Doing"),
     DONE("Done");
 

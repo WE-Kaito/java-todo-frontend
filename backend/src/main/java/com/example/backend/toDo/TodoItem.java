@@ -1,17 +1,16 @@
 package com.example.backend.toDo;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Objects;
 import java.util.UUID;
 
+@AllArgsConstructor
 public class TodoItem {
-    private final String id;
+    private String id;
     private String description;
     private String status;
-
-    public TodoItem(String description, Status status) {
-        this.id = UUID.randomUUID().toString().substring(0, 4);
-        this.description = description;
-        setStatus(status);
-    }
 
     public String getStatus() {
         return status;
@@ -19,6 +18,10 @@ public class TodoItem {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -29,10 +32,21 @@ public class TodoItem {
         this.description = description;
     }
 
-    public void setStatus(Status status) {
-        this.status = status.toString();
+    public void setStatus(String status) {
+        this.status = status;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TodoItem todoItem = (TodoItem) o;
+        return Objects.equals(description, todoItem.description) && Objects.equals(status, todoItem.status);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(description, status);
+    }
 }
 

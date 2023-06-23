@@ -1,25 +1,25 @@
 package com.example.backend.toDo;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class TodoService {
 
-    TodoRepo todoRepo;
+    final TodoRepo todoRepo;
 
-    @Autowired
-    public TodoService(TodoRepo todoRepo) {
-        this.todoRepo = todoRepo;
-    }
 
-    public void setStatus(String id, Status status) {
+    public void setStatus(String id, String status) {
         todoRepo.setStatus(id, status);
     }
 
     public void addTodoItem(TodoItem todoItem) {
+        todoItem.setId(UUID.randomUUID().toString().substring(0, 4));
         todoRepo.addTodoItem(todoItem);
     }
 
@@ -31,16 +31,11 @@ public class TodoService {
         todoRepo.updateTodoDescription(id, description);
     }
 
-    public List<TodoItem> getTodoTodos() {
-        return todoRepo.getTodoTodos();
+    public List<TodoItem> getAllTodos() {
+        return todoRepo.getAllTodos();
     }
 
-    public List<TodoItem> getTodoDoings() {
-        return todoRepo.getTodoDoings();
+    public TodoItem getTodoItem(String id) {
+        return todoRepo.getTodoItem(id);
     }
-
-    public List<TodoItem> getTodoDones() {
-        return todoRepo.getTodoDones();
-    }
-
 }
